@@ -51,6 +51,7 @@ export class IntegrationsComponent implements OnInit {
       next: (res: any) => {
         this.isSaving = false;
         this.saveMessage = '¡Conexión exitosa! El bot ya está activo.';
+        this.telegramToken = ''; // Clear input
         this.loadActiveIntegrations(); // Refresh list
         setTimeout(() => this.showTelegramForm = false, 3000);
       },
@@ -64,5 +65,19 @@ export class IntegrationsComponent implements OnInit {
         console.error(err);
       }
     });
+  }
+
+  deleteIntegration(platform: string) {
+    if (confirm('¿Estás seguro de que deseas eliminar esta conexión?')) {
+      this.http.delete(`${environment.apiUrl}/integrations/${platform}`).subscribe({
+        next: () => {
+          this.loadActiveIntegrations();
+        },
+        error: (err) => {
+          console.error('Error deleting integration', err);
+          alert('No se pudo eliminar la integración.');
+        }
+      });
+    }
   }
 }
