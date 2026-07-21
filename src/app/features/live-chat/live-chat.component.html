@@ -8,49 +8,63 @@
         <div class="w-full md:w-80 bg-white/50 dark:bg-black/20 backdrop-blur-md rounded-2xl p-5 border border-gray-200 dark:border-white/10 overflow-y-auto shadow-sm flex flex-col gap-3">
             <h3 class="text-xl font-semibold font-outfit text-gray-700 dark:text-slate-200 mb-2">Conversaciones</h3>
             
-            <!-- Active Conversation -->
-            <div class="p-4 bg-white dark:bg-white/5 rounded-xl border-l-4 border-fivia dark:border-[#34d399] cursor-pointer shadow-sm hover:-translate-y-0.5 transition-transform">
-                <strong class="text-gray-800 dark:text-slate-100 font-outfit text-lg block">Juan Pérez</strong>
-                <p class="text-xs text-gray-500 dark:text-slate-400 mt-1 mb-2 font-medium">Vía Telegram</p>
-                <span class="inline-block px-2 py-1 bg-fivia/10 dark:bg-[#34d399]/20 text-fivia dark:text-[#34d399] rounded-md text-xs font-bold">🤖 Bot Activo</span>
+            <div *ngIf="conversations.length === 0" class="text-gray-500 text-sm p-4 text-center">
+                No hay conversaciones activas
             </div>
 
-            <!-- Handed Off Conversation -->
-            <div class="p-4 bg-white/50 dark:bg-white/5 rounded-xl border border-transparent cursor-pointer hover:bg-white dark:hover:bg-white/10 transition-all">
-                <strong class="text-gray-700 dark:text-slate-300 font-outfit text-lg block">María Gómez</strong>
+            <!-- Conversation Items -->
+            <div *ngFor="let chat of conversations" 
+                 (click)="selectConversation(chat.chat_id, chat.ai_active)"
+                 class="p-4 rounded-xl cursor-pointer transition-all shadow-sm hover:-translate-y-0.5"
+                 [ngClass]="activeChatId === chat.chat_id ? 'bg-white dark:bg-white/10 border-l-4 border-fivia dark:border-[#34d399]' : 'bg-white/50 dark:bg-white/5 border border-transparent hover:bg-white dark:hover:bg-white/10'">
+                
+                <strong class="text-gray-800 dark:text-slate-100 font-outfit text-lg block truncate">Chat ID: {{ chat.chat_id }}</strong>
                 <p class="text-xs text-gray-500 dark:text-slate-400 mt-1 mb-2 font-medium">Vía Telegram</p>
-                <span class="inline-block px-2 py-1 bg-orange-500/10 text-orange-600 dark:bg-orange-400/20 dark:text-orange-400 rounded-md text-xs font-bold">👤 Agente al mando</span>
+                
+                <span *ngIf="chat.ai_active" class="inline-block px-2 py-1 bg-fivia/10 dark:bg-[#34d399]/20 text-fivia dark:text-[#34d399] rounded-md text-xs font-bold">🤖 Bot Activo</span>
+                <span *ngIf="!chat.ai_active" class="inline-block px-2 py-1 bg-orange-500/10 text-orange-600 dark:bg-orange-400/20 dark:text-orange-400 rounded-md text-xs font-bold">👤 Agente al mando</span>
             </div>
         </div>
 
         <!-- Chat Area -->
         <div class="flex-1 flex flex-col bg-white/60 dark:bg-black/20 backdrop-blur-md rounded-2xl border border-gray-200 dark:border-white/10 shadow-sm overflow-hidden">
-            <!-- Chat Header -->
-            <div class="p-5 border-b border-gray-200 dark:border-white/10 bg-white/40 dark:bg-white/5">
-                <h3 class="text-2xl font-bold font-outfit text-gray-800 dark:text-slate-100 m-0">Juan Pérez</h3>
-                <p class="text-sm font-medium mt-1 text-fivia dark:text-[#34d399]" *ngIf="isBotActive">El bot de IA está gestionando esta conversación.</p>
-                <p class="text-sm font-medium mt-1 text-orange-600 dark:text-orange-400" *ngIf="!isBotActive">Bot silenciado. Estás al mando de la conversación.</p>
+            
+            <div *ngIf="!activeChatId" class="flex-1 flex items-center justify-center text-gray-500 dark:text-slate-400 font-medium">
+                Selecciona una conversación para empezar
             </div>
 
-            <!-- Messages List -->
-            <div class="flex-1 p-6 overflow-y-auto flex flex-col gap-4">
-                <!-- User Msg -->
-                <div class="self-start bg-white dark:bg-white/10 p-4 rounded-2xl rounded-tl-sm max-w-[80%] border border-gray-100 dark:border-transparent shadow-sm">
-                    <p class="text-gray-700 dark:text-slate-200">Hola, ¿a qué hora abren el restaurante?</p>
-                    <div class="text-[10px] mt-2 text-gray-400 font-medium">10:00 AM</div>
+            <ng-container *ngIf="activeChatId">
+                <!-- Chat Header -->
+                <div class="p-5 border-b border-gray-200 dark:border-white/10 bg-white/40 dark:bg-white/5 flex justify-between items-center">
+                    <div>
+                        <h3 class="text-xl font-bold font-outfit text-gray-800 dark:text-slate-100 m-0 truncate max-w-[200px] md:max-w-md">Chat ID: {{ activeChatId }}</h3>
+                        <p class="text-sm font-medium mt-1 text-fivia dark:text-[#34d399]" *ngIf="isBotActive">El bot de IA está gestionando esta conversación.</p>
+                        <p class="text-sm font-medium mt-1 text-orange-600 dark:text-orange-400" *ngIf="!isBotActive">Bot silenciado. Estás al mando de la conversación.</p>
+                    </div>
+                    <button (click)="toggleHandoff()" class="px-3 py-1.5 rounded-lg text-sm font-semibold transition-colors border"
+                        [ngClass]="isBotActive ? 'bg-orange-500/10 text-orange-600 border-orange-500/20 hover:bg-orange-500 hover:text-white' : 'bg-fivia/10 text-fivia border-fivia/20 hover:bg-fivia hover:text-white'">
+                        {{ isBotActive ? 'Apagar IA' : 'Encender IA' }}
+                    </button>
                 </div>
-                <!-- Bot Msg -->
-                <div class="self-end bg-gradient-to-br from-fivia to-[#10b981] dark:from-[#34d399] dark:to-[#10b981] text-white p-4 rounded-2xl rounded-tr-sm max-w-[80%] shadow-md">
-                    <p>🤖 Hola Juan, abrimos todos los días a las 12:00 PM. ¡Te esperamos!</p>
-                    <div class="text-[10px] mt-2 text-white/70 font-medium">10:01 AM</div>
-                </div>
-            </div>
 
-            <!-- Input Box -->
-            <div class="p-5 border-t border-gray-200 dark:border-white/10 bg-white/40 dark:bg-white/5 flex gap-3">
-                <input type="text" placeholder="Escribe un mensaje para tomar el control (Handoff)..." class="input-styled !mt-0 flex-1">
-                <button (click)="takeControl()" class="btn-primary whitespace-nowrap">Tomar Control</button>
-            </div>
+                <!-- Messages List -->
+                <div class="flex-1 p-6 overflow-y-auto flex flex-col gap-4">
+                    <div *ngFor="let msg of messages" 
+                         [ngClass]="msg.sender === 'client' ? 'self-start bg-white dark:bg-white/10 border border-gray-100 dark:border-transparent rounded-tl-sm text-gray-700 dark:text-slate-200' : 'self-end bg-gradient-to-br from-fivia to-[#10b981] dark:from-[#34d399] dark:to-[#10b981] text-white rounded-tr-sm'"
+                         class="p-4 rounded-2xl max-w-[80%] shadow-sm">
+                        <p>{{ msg.sender === 'bot' ? '🤖 ' : (msg.sender === 'agent' ? '👤 ' : '') }}{{ msg.text }}</p>
+                        <div class="text-[10px] mt-2 font-medium" [ngClass]="msg.sender === 'client' ? 'text-gray-400' : 'text-white/70'">
+                            {{ msg.created_at | date:'shortTime' }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Input Box -->
+                <div class="p-5 border-t border-gray-200 dark:border-white/10 bg-white/40 dark:bg-white/5 flex gap-3">
+                    <input type="text" [(ngModel)]="newMessage" (keyup.enter)="sendMessage()" placeholder="Escribe un mensaje para tomar el control (Handoff)..." class="input-styled !mt-0 flex-1">
+                    <button (click)="sendMessage()" class="btn-primary whitespace-nowrap px-6">Enviar</button>
+                </div>
+            </ng-container>
         </div>
     </div>
 </section>
