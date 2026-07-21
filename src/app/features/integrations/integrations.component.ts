@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -10,13 +10,27 @@ import { environment } from '../../../environments/environment';
   imports: [CommonModule, FormsModule],
   templateUrl: './integrations.component.html'
 })
-export class IntegrationsComponent {
+export class IntegrationsComponent implements OnInit {
   showTelegramForm = false;
   telegramToken = '';
   isSaving = false;
   saveMessage = '';
+  activeIntegrations: any[] = [];
 
   constructor(private http: HttpClient) {}
+
+  ngOnInit() {
+    this.loadActiveIntegrations();
+  }
+
+  loadActiveIntegrations() {
+    this.http.get(`${environment.apiUrl}/integrations/active`).subscribe({
+      next: (res: any) => {
+        this.activeIntegrations = res;
+      },
+      error: (err) => console.error('Error fetching integrations', err)
+    });
+  }
 
   toggleTelegramForm() {
     this.showTelegramForm = !this.showTelegramForm;
@@ -30,13 +44,14 @@ export class IntegrationsComponent {
 
     const payload = {
       token: this.telegramToken.trim(),
-      backendUrl: environment.apiUrl.replace('/api', '') // We need the base URL, e.g. https://fivia-backend.vercel.app
+      backendUrl: environment.apiUrl.replace('/api', '') // We need the base URL
     };
 
     this.http.post(`${environment.apiUrl}/telegram/setup`, payload).subscribe({
       next: (res: any) => {
         this.isSaving = false;
         this.saveMessage = '¡Conexión exitosa! El bot ya está activo.';
+        this.loadActiveIntegrations(); // Refresh list
         setTimeout(() => this.showTelegramForm = false, 3000);
       },
       error: (err) => {
