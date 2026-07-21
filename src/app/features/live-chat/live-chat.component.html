@@ -1,0 +1,51 @@
+<section>
+    <div id="welcome">
+        <h2>Mensajería y Live Chat (Handoff)</h2>
+    </div>
+    
+    <div style="display: flex; gap: 20px; height: 60vh;">
+        <!-- Contact List -->
+        <div style="width: 300px; background: rgba(0,0,0,0.2); border-radius: 8px; padding: 15px; overflow-y: auto;">
+            <h3 style="margin-top: 0;">Conversaciones Activas</h3>
+            
+            <div style="padding: 10px; background: rgba(255,255,255,0.1); border-radius: 5px; margin-bottom: 10px; cursor: pointer; border-left: 4px solid #249b81;">
+                <strong>Cliente: Juan Pérez</strong>
+                <p style="margin: 5px 0 0; font-size: 13px; color: #ccc;">Vía Telegram</p>
+                <span style="font-size: 12px; color: #249b81;">🤖 Bot Activo</span>
+            </div>
+
+            <div style="padding: 10px; background: rgba(255,255,255,0.05); border-radius: 5px; margin-bottom: 10px; cursor: pointer;">
+                <strong>Cliente: María Gómez</strong>
+                <p style="margin: 5px 0 0; font-size: 13px; color: #ccc;">Vía Telegram</p>
+                <span style="font-size: 12px; color: #ff9800;">👤 Agente al mando</span>
+            </div>
+        </div>
+
+        <!-- Chat Area -->
+        <div style="flex: 1; display: flex; flex-direction: column; background: rgba(0,0,0,0.2); border-radius: 8px;">
+            <div style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                <h3 style="margin: 0;">Juan Pérez</h3>
+                <p style="margin: 5px 0 0; font-size: 13px; color: #249b81;" *ngIf="isBotActive">El bot de IA está gestionando esta conversación.</p>
+                <p style="margin: 5px 0 0; font-size: 13px; color: #ff9800;" *ngIf="!isBotActive">Bot silenciado. Estás al mando de la conversación.</p>
+            </div>
+
+            <!-- Messages -->
+            <div style="flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px;">
+                <div style="align-self: flex-start; background: rgba(255,255,255,0.1); padding: 10px 15px; border-radius: 15px 15px 15px 0; max-width: 70%;">
+                    Hola, ¿a qué hora abren el restaurante?
+                    <div style="font-size: 10px; margin-top: 5px; color: #aaa;">10:00 AM</div>
+                </div>
+                <div style="align-self: flex-end; background: #249b81; color: white; padding: 10px 15px; border-radius: 15px 15px 0 15px; max-width: 70%;">
+                    🤖 Hola Juan, abrimos todos los días a las 12:00 PM. ¡Te esperamos!
+                    <div style="font-size: 10px; margin-top: 5px; color: #ddd;">10:01 AM</div>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div style="padding: 15px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; gap: 10px;">
+                <input type="text" placeholder="Escribe un mensaje para tomar el control (Handoff)..." style="flex: 1; margin: 0;">
+                <button (click)="takeControl()">Enviar (Tomar Control)</button>
+            </div>
+        </div>
+    </div>
+</section>
