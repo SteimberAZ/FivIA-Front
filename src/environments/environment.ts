@@ -1,6 +1,6 @@
 export const environment = {
-  production: false,
+  production: true,
   supabaseUrl: 'TU_SUPABASE_URL',
   supabaseKey: 'TU_SUPABASE_ANON_KEY',
-  apiUrl: 'http://localhost:3000/api'
+  apiUrl: 'https://fivia-backend.vercel.app/api'
 };
