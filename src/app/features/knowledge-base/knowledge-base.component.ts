@@ -21,9 +21,14 @@ export class KnowledgeBaseComponent implements OnInit {
   }
 
   loadFiles() {
-    // In a real app, this would fetch from a GET /api/knowledge endpoint
-    // For now, we will simulate loading the array, or you can add a GET endpoint if you want.
-    // Let's add it to the backend soon, but for now just keep local state if uploaded.
+    this.http.get(`${environment.apiUrl}/knowledge/files`).subscribe({
+      next: (res: any) => {
+        this.uploadedFiles = res;
+      },
+      error: (err) => {
+        console.error('Error fetching files', err);
+      }
+    });
   }
 
   triggerFileInput() {
@@ -53,10 +58,7 @@ export class KnowledgeBaseComponent implements OnInit {
       next: (res: any) => {
         this.isUploading = false;
         this.uploadMessage = 'Archivos procesados correctamente.';
-        // Add to list locally
-        for (let i = 0; i < files.length; i++) {
-          this.uploadedFiles.push({ filename: files[i].name });
-        }
+        this.loadFiles(); // Reload from backend
         setTimeout(() => this.uploadMessage = '', 3000);
       },
       error: (err) => {
@@ -67,7 +69,15 @@ export class KnowledgeBaseComponent implements OnInit {
     });
   }
 
-  deleteFile(index: number) {
-    this.uploadedFiles.splice(index, 1);
+  deleteFile(file: any) {
+    if (!file.id) return;
+    this.http.delete(`${environment.apiUrl}/knowledge/files/${file.id}`).subscribe({
+      next: () => {
+        this.loadFiles();
+      },
+      error: (err) => {
+        console.error('Error deleting file', err);
+      }
+    });
   }
 }
