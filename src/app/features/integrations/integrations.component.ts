@@ -41,7 +41,11 @@ export class IntegrationsComponent {
       },
       error: (err) => {
         this.isSaving = false;
-        this.saveMessage = 'Error al conectar. Verifica tu Token.';
+        if (err.error && err.error.error) {
+           this.saveMessage = 'Error: ' + err.error.error;
+        } else {
+           this.saveMessage = 'Error al conectar. Verifica tu Token.';
+        }
         console.error(err);
       }
     });
