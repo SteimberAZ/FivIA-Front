@@ -35,20 +35,20 @@
 
             <ng-container *ngIf="activeChatId">
                 <!-- Chat Header -->
-                <div class="p-5 border-b border-gray-200 dark:border-white/10 bg-white/40 dark:bg-white/5 flex justify-between items-center">
+                <div class="p-5 border-b border-gray-200 dark:border-white/10 bg-white/40 dark:bg-white/5 flex justify-between items-center shrink-0">
                     <div>
                         <h3 class="text-xl font-bold font-outfit text-gray-800 dark:text-slate-100 m-0 truncate max-w-[200px] md:max-w-md">Chat ID: {{ activeChatId }}</h3>
                         <p class="text-sm font-medium mt-1 text-fivia dark:text-[#34d399]" *ngIf="isBotActive">El bot de IA está gestionando esta conversación.</p>
                         <p class="text-sm font-medium mt-1 text-orange-600 dark:text-orange-400" *ngIf="!isBotActive">Bot silenciado. Estás al mando de la conversación.</p>
                     </div>
-                    <button (click)="toggleHandoff()" class="px-3 py-1.5 rounded-lg text-sm font-semibold transition-colors border"
+                    <button (click)="toggleHandoff()" class="px-3 py-1.5 rounded-lg text-sm font-semibold transition-colors border shrink-0"
                         [ngClass]="isBotActive ? 'bg-orange-500/10 text-orange-600 border-orange-500/20 hover:bg-orange-500 hover:text-white' : 'bg-fivia/10 text-fivia border-fivia/20 hover:bg-fivia hover:text-white'">
                         {{ isBotActive ? 'Apagar IA' : 'Encender IA' }}
                     </button>
                 </div>
 
                 <!-- Messages List -->
-                <div class="flex-1 p-6 overflow-y-auto flex flex-col gap-4">
+                <div class="flex-1 min-h-0 p-6 overflow-y-auto flex flex-col gap-4">
                     <div *ngFor="let msg of messages" 
                          [ngClass]="msg.sender === 'client' ? 'self-start bg-white dark:bg-white/10 border border-gray-100 dark:border-transparent rounded-tl-sm text-gray-700 dark:text-slate-200' : 'self-end bg-gradient-to-br from-fivia to-[#10b981] dark:from-[#34d399] dark:to-[#10b981] text-white rounded-tr-sm'"
                          class="p-4 rounded-2xl max-w-[80%] shadow-sm">
