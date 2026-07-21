@@ -4,9 +4,12 @@
 
 @layer base {
   body {
-    @apply antialiased min-h-screen overflow-x-hidden;
+    @apply antialiased min-h-screen overflow-x-hidden font-inter;
     background-image: radial-gradient(circle at 15% 50%, rgba(16, 185, 129, 0.08), transparent 25%),
                       radial-gradient(circle at 85% 30%, rgba(52, 211, 153, 0.05), transparent 25%);
+  }
+  h1, h2, h3, h4, h5 {
+    @apply font-outfit;
   }
 }
 
