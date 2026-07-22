@@ -1,47 +1,102 @@
 <section class="max-w-6xl mx-auto w-full">
-    <div id="welcome" class="mb-10">
+    <!-- Header Welcome -->
+    <div id="welcome" class="mb-8">
         <h2 class="text-3xl md:text-4xl font-bold font-outfit text-gray-800 dark:text-slate-100">
-            Bienvenido a FivIA, <span id="typed" class="text-fivia dark:text-[#34d399]">Usuario</span>
+            Resumen General del Sistema
         </h2>
+        <p class="text-gray-500 dark:text-slate-400 mt-2 font-medium">Métricas clave de rendimiento y estado en tiempo real de tu plataforma FivIA.</p>
     </div>
-    <h3 class="text-xl font-semibold font-outfit text-gray-700 dark:text-slate-200 mb-6">Plantillas de ChatBots</h3>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <article class="glass-card p-6 rounded-2xl hover:-translate-y-1 hover:shadow-lg transition-all duration-300 cursor-pointer border border-gray-200 dark:border-white/10 group">
-            <div class="flex items-center gap-4 mb-4">
-                <div class="p-3 rounded-xl bg-fivia/10 dark:bg-[#34d399]/20 text-fivia dark:text-[#34d399] group-hover:scale-110 transition-transform">
-                    <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor">
-                        <path d="M15 12L12 12M12 12L9 12M12 12L12 9M12 12L12 15" stroke-width="1.5" stroke-linecap="round"></path>
-                        <path d="M7 3.33782C8.47087 2.48697 10.1786 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 10.1786 2.48697 8.47087 3.33782 7" stroke-width="1.5" stroke-linecap="round"></path>
+    <!-- Metrics Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+        <!-- Card 1: Mensajes Totales -->
+        <article class="glass-card p-6 rounded-2xl border border-gray-200 dark:border-white/10 shadow-sm hover:shadow-md transition-all">
+            <div class="flex items-center justify-between mb-4">
+                <span class="text-sm font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wider font-outfit">Mensajes</span>
+                <div class="p-3 rounded-xl bg-blue-500/10 text-blue-600 dark:bg-blue-400/20 dark:text-blue-400">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
                     </svg>
                 </div>
-                <h4 class="text-lg font-bold font-outfit text-gray-800 dark:text-slate-100">Crear tu propio ChatBot</h4>
             </div>
-            <p class="text-gray-500 dark:text-slate-400 text-sm leading-relaxed">Empieza desde cero y diseña tu bot a tu manera.</p>
+            <div class="text-3xl font-extrabold font-outfit text-gray-800 dark:text-slate-100">
+                {{ isLoading ? '...' : (stats.messages | number) }}
+            </div>
+            <p class="text-xs text-gray-400 dark:text-slate-500 mt-2">Mensajes enviados y recibidos</p>
         </article>
 
-        <article class="glass-card p-6 rounded-2xl hover:-translate-y-1 hover:shadow-lg transition-all duration-300 cursor-pointer border border-gray-200 dark:border-white/10 group">
-            <div class="flex items-center gap-4 mb-4">
-                <div class="p-3 rounded-xl bg-blue-500/10 text-blue-500 dark:bg-blue-400/20 dark:text-blue-400 group-hover:scale-110 transition-transform">
-                    <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/>
+        <!-- Card 2: Clientes Atendidos -->
+        <article class="glass-card p-6 rounded-2xl border border-gray-200 dark:border-white/10 shadow-sm hover:shadow-md transition-all">
+            <div class="flex items-center justify-between mb-4">
+                <span class="text-sm font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wider font-outfit">Clientes</span>
+                <div class="p-3 rounded-xl bg-fivia/10 text-fivia dark:bg-[#34d399]/20 dark:text-[#34d399]">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
                     </svg>
                 </div>
-                <h4 class="text-lg font-bold font-outfit text-gray-800 dark:text-slate-100">ChatBot para Restaurante</h4>
             </div>
-            <p class="text-gray-500 dark:text-slate-400 text-sm leading-relaxed">Automatiza pedidos, reservas y atención al cliente.</p>
+            <div class="text-3xl font-extrabold font-outfit text-gray-800 dark:text-slate-100">
+                {{ isLoading ? '...' : (stats.conversations | number) }}
+            </div>
+            <p class="text-xs text-gray-400 dark:text-slate-500 mt-2">Conversaciones únicas registradas</p>
         </article>
 
-        <article class="glass-card p-6 rounded-2xl hover:-translate-y-1 hover:shadow-lg transition-all duration-300 cursor-pointer border border-gray-200 dark:border-white/10 group">
-            <div class="flex items-center gap-4 mb-4">
-                <div class="p-3 rounded-xl bg-purple-500/10 text-purple-500 dark:bg-purple-400/20 dark:text-purple-400 group-hover:scale-110 transition-transform">
-                    <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M9.19807 4.45825C8.55418 4.22291 7.94427 4 7 4C5 4 4 6 4 8.5C4 10.0985 4.40885 11.0838 4.83441 12.1093C5.0744 12.6877 5.31971 13.2788 5.5 14C5.649 14.596 5.7092 15.4584 5.77321 16.3755C5.92401 18.536 6.096 21 7.5 21C8.39898 21 8.79286 19.5857 9.22652 18.0286C9.75765 16.1214 10.3485 14 12 14C13.6515 14 14.2423 16.1214 14.7735 18.0286C15.2071 19.5857 15.601 21 16.5 21C17.904 21 18.076 18.536 18.2268 16.3755C18.2908 15.4584 18.351 14.596 18.5 14C18.6803 13.2788 18.9256 12.6877 19.1656 12.1093C19.5912 11.0838 20 10.0985 20 8.5C20 6 19 4 17 4C16.0557 4 15.4458 4.22291 14.8019 4.45825C14.082 4.72136 13.3197 5 12 5C10.6803 5 9.91796 4.72136 9.19807 4.45825Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+        <!-- Card 3: Conexiones Activas -->
+        <article class="glass-card p-6 rounded-2xl border border-gray-200 dark:border-white/10 shadow-sm hover:shadow-md transition-all">
+            <div class="flex items-center justify-between mb-4">
+                <span class="text-sm font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wider font-outfit">Conexiones</span>
+                <div class="p-3 rounded-xl bg-purple-500/10 text-purple-600 dark:bg-purple-400/20 dark:text-purple-400">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                     </svg>
                 </div>
-                <h4 class="text-lg font-bold font-outfit text-gray-800 dark:text-slate-100">ChatBot para Dentista</h4>
             </div>
-            <p class="text-gray-500 dark:text-slate-400 text-sm leading-relaxed">Gestiona citas y responde preguntas frecuentes.</p>
+            <div class="text-3xl font-extrabold font-outfit text-gray-800 dark:text-slate-100">
+                {{ isLoading ? '...' : stats.activeIntegrations }}
+            </div>
+            <p class="text-xs text-gray-400 dark:text-slate-500 mt-2">Canales de mensajería conectados</p>
         </article>
+
+        <!-- Card 4: Base de Conocimiento -->
+        <article class="glass-card p-6 rounded-2xl border border-gray-200 dark:border-white/10 shadow-sm hover:shadow-md transition-all">
+            <div class="flex items-center justify-between mb-4">
+                <span class="text-sm font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wider font-outfit">Conocimiento</span>
+                <div class="p-3 rounded-xl bg-amber-500/10 text-amber-600 dark:bg-amber-400/20 dark:text-amber-400">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="text-3xl font-extrabold font-outfit text-gray-800 dark:text-slate-100">
+                {{ isLoading ? '...' : stats.knowledgeFiles }}
+            </div>
+            <p class="text-xs text-gray-400 dark:text-slate-500 mt-2">Documentos indexados (RAG)</p>
+        </article>
+    </div>
+
+    <!-- Health & Performance Overview -->
+    <div class="glass-card p-6 md:p-8 rounded-2xl border border-gray-200 dark:border-white/10 shadow-sm">
+        <h3 class="text-xl font-bold font-outfit text-gray-800 dark:text-slate-100 mb-4 flex items-center gap-3">
+            <span class="relative flex h-3 w-3">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+            </span>
+            Estado del Sistema & Motor IA
+        </h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+            <div class="p-4 rounded-xl bg-white/40 dark:bg-white/5 border border-gray-100 dark:border-white/5">
+                <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider block mb-1">Modelo de IA</span>
+                <span class="text-sm font-bold text-gray-800 dark:text-slate-200">Google Gemini Flash (Latest)</span>
+            </div>
+            <div class="p-4 rounded-xl bg-white/40 dark:bg-white/5 border border-gray-100 dark:border-white/5">
+                <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider block mb-1">Arquitectura RAG</span>
+                <span class="text-sm font-bold text-emerald-600 dark:text-[#34d399]">Activa (Context Injection)</span>
+            </div>
+            <div class="p-4 rounded-xl bg-white/40 dark:bg-white/5 border border-gray-100 dark:border-white/5">
+                <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider block mb-1">Estado del Servidor</span>
+                <span class="text-sm font-bold text-emerald-600 dark:text-[#34d399]">100% Operativo (Vercel)</span>
+            </div>
+        </div>
     </div>
 </section>
