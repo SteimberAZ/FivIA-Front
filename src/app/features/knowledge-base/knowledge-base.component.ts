@@ -63,7 +63,7 @@ export class KnowledgeBaseComponent implements OnInit {
       },
       error: (err) => {
         this.isUploading = false;
-        this.uploadMessage = 'Error al subir los archivos.';
+        this.uploadMessage = err.error?.error || 'Error al subir los archivos.';
         console.error(err);
       }
     });
