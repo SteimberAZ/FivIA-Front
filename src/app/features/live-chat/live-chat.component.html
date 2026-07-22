@@ -15,10 +15,19 @@
             <!-- Conversation Items -->
             <div *ngFor="let chat of conversations" 
                  (click)="selectConversation(chat.chat_id, chat.ai_active, chat.client_name)"
-                 class="p-4 rounded-xl cursor-pointer transition-all shadow-sm hover:-translate-y-0.5"
+                 class="p-4 rounded-xl cursor-pointer transition-all shadow-sm hover:-translate-y-0.5 group relative"
                  [ngClass]="activeChatId === chat.chat_id ? 'bg-white dark:bg-white/10 border-l-4 border-fivia dark:border-[#34d399]' : 'bg-white/50 dark:bg-white/5 border border-transparent hover:bg-white dark:hover:bg-white/10'">
                 
-                <strong class="text-gray-800 dark:text-slate-100 font-outfit text-lg block truncate">{{ chat.client_name || ('Chat ID: ' + chat.chat_id) }}</strong>
+                <div class="flex items-center justify-between">
+                    <strong class="text-gray-800 dark:text-slate-100 font-outfit text-lg block truncate pr-2">{{ chat.client_name || ('Chat ID: ' + chat.chat_id) }}</strong>
+                    <button (click)="deleteConversation(chat.chat_id, $event)" class="p-1 text-gray-400 hover:text-red-500 opacity-60 group-hover:opacity-100 transition-all shrink-0" title="Eliminar Cliente">
+                        <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                        </svg>
+                    </button>
+                </div>
+                
                 <p class="text-xs text-gray-500 dark:text-slate-400 mt-1 mb-2 font-medium">Vía Telegram</p>
                 
                 <span *ngIf="chat.ai_active" class="inline-block px-2 py-1 bg-fivia/10 dark:bg-[#34d399]/20 text-fivia dark:text-[#34d399] rounded-md text-xs font-bold">🤖 Bot Activo</span>
@@ -41,10 +50,20 @@
                         <p class="text-sm font-medium mt-1 text-fivia dark:text-[#34d399]" *ngIf="isBotActive">El bot de IA está gestionando esta conversación.</p>
                         <p class="text-sm font-medium mt-1 text-orange-600 dark:text-orange-400" *ngIf="!isBotActive">Bot silenciado. Estás al mando de la conversación.</p>
                     </div>
-                    <button (click)="toggleHandoff()" class="px-3 py-1.5 rounded-lg text-sm font-semibold transition-colors border shrink-0"
-                        [ngClass]="isBotActive ? 'bg-orange-500/10 text-orange-600 border-orange-500/20 hover:bg-orange-500 hover:text-white' : 'bg-fivia/10 text-fivia border-fivia/20 hover:bg-fivia hover:text-white'">
-                        {{ isBotActive ? 'Apagar IA' : 'Encender IA' }}
-                    </button>
+                    <div class="flex items-center gap-2 shrink-0">
+                        <button (click)="toggleHandoff()" class="px-3 py-1.5 rounded-lg text-sm font-semibold transition-colors border shrink-0"
+                            [ngClass]="isBotActive ? 'bg-orange-500/10 text-orange-600 border-orange-500/20 hover:bg-orange-500 hover:text-white' : 'bg-fivia/10 text-fivia border-fivia/20 hover:bg-fivia hover:text-white'">
+                            {{ isBotActive ? 'Apagar IA' : 'Encender IA' }}
+                        </button>
+                        <button (click)="deleteCurrentConversation()" class="p-2 rounded-lg bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-colors border border-red-500/20 shrink-0" title="Eliminar Cliente y Conversación">
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="3 6 5 6 21 6"></polyline>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                <line x1="10" y1="11" x2="10" y2="17"></line>
+                                <line x1="14" y1="11" x2="14" y2="17"></line>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Messages List (Forced Scroll Area) -->

@@ -82,6 +82,32 @@ export class LiveChatComponent implements OnInit {
     });
   }
 
+  deleteCurrentConversation() {
+    if (!this.activeChatId) return;
+    this.deleteConversation(this.activeChatId);
+  }
+
+  deleteConversation(chatId: string, event?: Event) {
+    if (event) {
+      event.stopPropagation();
+    }
+
+    const confirmed = confirm('¿Estás seguro de que deseas eliminar este cliente y todo su historial de mensajes? Esta acción no se puede deshacer.');
+    if (!confirmed) return;
+
+    this.http.delete(`${environment.apiUrl}/chat/conversations/${chatId}`).subscribe({
+      next: () => {
+        if (this.activeChatId === chatId) {
+          this.activeChatId = null;
+          this.activeClientName = null;
+          this.messages = [];
+        }
+        this.loadConversations();
+      },
+      error: (err) => console.error('Error deleting conversation', err)
+    });
+  }
+
   sendMessage() {
     if (!this.newMessage.trim() || !this.activeChatId) return;
     
