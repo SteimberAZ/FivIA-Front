@@ -14,6 +14,7 @@ import { environment } from '../../../environments/environment';
 export class LiveChatComponent implements OnInit {
   conversations: any[] = [];
   activeChatId: string | null = null;
+  activeClientName: string | null = null;
   messages: any[] = [];
   isBotActive = true;
   newMessage = '';
@@ -40,9 +41,10 @@ export class LiveChatComponent implements OnInit {
     });
   }
 
-  selectConversation(chatId: string, aiActive: boolean) {
+  selectConversation(chatId: string, aiActive: boolean, clientName: string) {
     this.activeChatId = chatId;
     this.isBotActive = aiActive;
+    this.activeClientName = clientName;
     this.loadMessages(chatId);
   }
 
