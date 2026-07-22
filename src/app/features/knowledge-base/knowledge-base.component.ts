@@ -47,26 +47,48 @@ export class KnowledgeBaseComponent implements OnInit {
 
   uploadFiles(files: FileList) {
     this.isUploading = true;
-    this.uploadMessage = 'Subiendo archivos...';
+    this.uploadMessage = 'Procesando archivo localmente...';
     
-    const formData = new FormData();
-    for (let i = 0; i < files.length; i++) {
-      formData.append('files', files[i]);
+    const file = files[0];
+    if (!file) return;
+
+    // Solo soportamos archivos de texto por ahora para evitar problemas de binarios
+    if (file.type === 'application/pdf') {
+       this.isUploading = false;
+       this.uploadMessage = 'Sube un archivo de texto (.txt, .md, .csv) por ahora. Soporte PDF próximamente.';
+       return;
     }
 
-    this.http.post(`${environment.apiUrl}/knowledge/upload`, formData).subscribe({
-      next: (res: any) => {
-        this.isUploading = false;
-        this.uploadMessage = 'Archivos procesados correctamente.';
-        this.loadFiles(); // Reload from backend
-        setTimeout(() => this.uploadMessage = '', 3000);
-      },
-      error: (err) => {
-        this.isUploading = false;
-        this.uploadMessage = (err.error && err.error.error) ? err.error.error : err.message;
-        console.error(err);
-      }
-    });
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      const content = e.target.result;
+      
+      const payload = {
+        filename: file.name,
+        mimetype: file.type,
+        content: content
+      };
+
+      this.uploadMessage = 'Subiendo conocimiento...';
+      this.http.post(`${environment.apiUrl}/knowledge/upload`, payload).subscribe({
+        next: (res: any) => {
+          this.isUploading = false;
+          this.uploadMessage = '¡Conocimiento añadido correctamente!';
+          this.loadFiles();
+          setTimeout(() => this.uploadMessage = '', 3000);
+        },
+        error: (err) => {
+          this.isUploading = false;
+          this.uploadMessage = (err.error && err.error.error) ? err.error.error : err.message;
+          console.error(err);
+        }
+      });
+    };
+    reader.onerror = () => {
+      this.isUploading = false;
+      this.uploadMessage = 'Error leyendo el archivo localmente.';
+    };
+    reader.readAsText(file);
   }
 
   deleteFile(file: any) {
