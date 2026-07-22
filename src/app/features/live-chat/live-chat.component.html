@@ -20,7 +20,7 @@
                 
                 <div class="flex items-center justify-between">
                     <strong class="text-gray-800 dark:text-slate-100 font-outfit text-lg block truncate pr-2">{{ chat.client_name || ('Chat ID: ' + chat.chat_id) }}</strong>
-                    <button (click)="deleteConversation(chat.chat_id, $event)" class="p-1 text-gray-400 hover:text-red-500 opacity-60 group-hover:opacity-100 transition-all shrink-0" title="Eliminar Cliente">
+                    <button (click)="deleteConversation(chat.chat_id, chat.client_name, $event)" class="p-1 text-gray-400 hover:text-red-500 opacity-60 group-hover:opacity-100 transition-all shrink-0" title="Eliminar Cliente">
                         <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <polyline points="3 6 5 6 21 6"></polyline>
                             <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
@@ -86,6 +86,33 @@
                     <button (click)="sendMessage()" class="btn-primary whitespace-nowrap px-6">Enviar</button>
                 </div>
             </ng-container>
+        </div>
+    </div>
+
+    <!-- Modal Confirmación de Eliminación -->
+    <div *ngIf="showDeleteModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
+        <div class="glass-card max-w-md w-full p-6 rounded-3xl border border-gray-200 dark:border-white/10 shadow-2xl bg-white/90 dark:bg-slate-900/90 text-center flex flex-col items-center">
+            
+            <!-- Danger Icon -->
+            <div class="w-14 h-14 rounded-full bg-red-500/10 text-red-500 flex items-center justify-center mb-4 border border-red-500/20">
+                <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+            </div>
+
+            <h3 class="text-2xl font-bold font-outfit text-gray-800 dark:text-slate-100 mb-2">Eliminar Cliente</h3>
+            <p class="text-gray-500 dark:text-slate-400 text-sm mb-6">
+                ¿Estás seguro de que deseas eliminar la conversación de <strong class="text-gray-800 dark:text-slate-200 font-semibold">{{ chatToDelete?.name }}</strong>? Esta acción borrará todo el historial de mensajes permanentemente.
+            </p>
+
+            <div class="flex gap-3 w-full">
+                <button (click)="cancelDelete()" class="flex-1 py-3 px-4 rounded-xl border border-gray-300 dark:border-white/10 font-bold text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors">
+                    Cancelar
+                </button>
+                <button (click)="confirmDelete()" class="flex-1 py-3 px-4 rounded-xl bg-red-500 hover:bg-red-600 text-white font-bold transition-colors shadow-lg shadow-red-500/30">
+                    Eliminar
+                </button>
+            </div>
         </div>
     </div>
 </section>

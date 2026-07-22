@@ -82,18 +82,35 @@ export class LiveChatComponent implements OnInit {
     });
   }
 
+  // Modal Delete State
+  showDeleteModal = false;
+  chatToDelete: { id: string, name: string } | null = null;
+
   deleteCurrentConversation() {
     if (!this.activeChatId) return;
-    this.deleteConversation(this.activeChatId);
+    this.openDeleteModal(this.activeChatId, this.activeClientName || `Chat ID: ${this.activeChatId}`);
   }
 
-  deleteConversation(chatId: string, event?: Event) {
+  deleteConversation(chatId: string, clientName?: string, event?: Event) {
     if (event) {
       event.stopPropagation();
     }
+    this.openDeleteModal(chatId, clientName || `Chat ID: ${chatId}`);
+  }
 
-    const confirmed = confirm('¿Estás seguro de que deseas eliminar este cliente y todo su historial de mensajes? Esta acción no se puede deshacer.');
-    if (!confirmed) return;
+  openDeleteModal(chatId: string, name: string) {
+    this.chatToDelete = { id: chatId, name };
+    this.showDeleteModal = true;
+  }
+
+  cancelDelete() {
+    this.showDeleteModal = false;
+    this.chatToDelete = null;
+  }
+
+  confirmDelete() {
+    if (!this.chatToDelete) return;
+    const chatId = this.chatToDelete.id;
 
     this.http.delete(`${environment.apiUrl}/chat/conversations/${chatId}`).subscribe({
       next: () => {
@@ -102,9 +119,15 @@ export class LiveChatComponent implements OnInit {
           this.activeClientName = null;
           this.messages = [];
         }
+        this.showDeleteModal = false;
+        this.chatToDelete = null;
         this.loadConversations();
       },
-      error: (err) => console.error('Error deleting conversation', err)
+      error: (err) => {
+        console.error('Error deleting conversation', err);
+        this.showDeleteModal = false;
+        this.chatToDelete = null;
+      }
     });
   }
 
