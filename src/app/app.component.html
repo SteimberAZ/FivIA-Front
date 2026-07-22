@@ -1,8 +1,15 @@
-<app-header></app-header>
-<div class="flex flex-col md:flex-row min-h-[85vh] w-full">
-  <app-sidebar class="w-full md:w-[260px] flex-shrink-0"></app-sidebar>
-  <main id="dashboard" class="flex-1 w-full relative">
-    <router-outlet></router-outlet>
-  </main>
+<div class="flex flex-col min-h-screen w-full bg-slate-50 dark:bg-slate-950 text-gray-800 dark:text-slate-100 font-sans transition-colors duration-300">
+  <app-header></app-header>
+  
+  <div class="flex-1 flex flex-col md:flex-row w-full">
+    <app-sidebar class="w-full md:w-[260px] flex-shrink-0 border-r border-gray-200 dark:border-white/10"></app-sidebar>
+    
+    <main id="dashboard" class="flex-1 w-full relative p-6 md:p-10 flex flex-col items-center justify-start min-w-0">
+      <div class="w-full max-w-6xl mx-auto flex-1 flex flex-col justify-start">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
+  </div>
+
+  <app-footer class="mt-auto shrink-0 border-t border-gray-200 dark:border-white/10"></app-footer>
 </div>
-<app-footer></app-footer>
