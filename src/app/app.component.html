@@ -1,15 +1,19 @@
-<div class="flex flex-col min-h-screen w-full bg-slate-50 dark:bg-slate-950 text-gray-800 dark:text-slate-100 font-sans transition-colors duration-300">
-  <app-header></app-header>
-  
-  <div class="flex-1 flex flex-col md:flex-row w-full">
-    <app-sidebar class="w-full md:w-[260px] flex-shrink-0 border-r border-gray-200 dark:border-white/10"></app-sidebar>
+<div class="flex flex-col w-full bg-slate-50 dark:bg-slate-950 text-gray-800 dark:text-slate-100 font-sans transition-colors duration-300">
+  <!-- Content area forcing 100vh height -->
+  <div class="min-h-screen flex flex-col w-full">
+    <app-header></app-header>
     
-    <main id="dashboard" class="flex-1 w-full relative p-6 md:p-10 flex flex-col items-center justify-start min-w-0">
-      <div class="w-full max-w-6xl mx-auto flex-1 flex flex-col justify-start">
-        <router-outlet></router-outlet>
-      </div>
-    </main>
+    <div class="flex-1 flex flex-col md:flex-row w-full">
+      <app-sidebar class="w-full md:w-[260px] flex-shrink-0 border-r border-gray-200 dark:border-white/10"></app-sidebar>
+      
+      <main id="dashboard" class="flex-1 w-full relative p-6 md:p-10 flex flex-col items-center justify-start min-w-0">
+        <div class="w-full max-w-6xl mx-auto flex-1 flex flex-col justify-start">
+          <router-outlet></router-outlet>
+        </div>
+      </main>
+    </div>
   </div>
 
-  <app-footer class="mt-auto shrink-0 border-t border-gray-200 dark:border-white/10"></app-footer>
+  <!-- Footer below the fold (only visible on scroll down) -->
+  <app-footer class="w-full shrink-0 border-t border-gray-200 dark:border-white/10"></app-footer>
 </div>
