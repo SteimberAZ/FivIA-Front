@@ -1,10 +1,10 @@
 <section class="max-w-6xl mx-auto w-full">
     <!-- Header Welcome -->
     <div id="welcome" class="mb-8">
-        <h2 class="text-3xl md:text-4xl font-bold font-outfit text-gray-800 dark:text-slate-100">
-            Resumen General del Sistema
+        <h2 class="text-3xl md:text-4xl font-bold font-outfit text-gray-800 dark:text-slate-100 flex items-center gap-3">
+            ¡Hola, <span class="bg-clip-text text-transparent bg-gradient-to-r from-[#34d399] to-[#10b981]">{{ userName }}</span>! 👋
         </h2>
-        <p class="text-gray-500 dark:text-slate-400 mt-2 font-medium">Métricas clave de rendimiento y estado en tiempo real de tu plataforma FivIA.</p>
+        <p class="text-gray-500 dark:text-slate-400 mt-2 font-medium">Resumen general del sistema y métricas en tiempo real de tu plataforma FivIA.</p>
     </div>
 
     <!-- Metrics Grid -->
@@ -87,7 +87,7 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
             <div class="p-4 rounded-xl bg-white/40 dark:bg-white/5 border border-gray-100 dark:border-white/5">
                 <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider block mb-1">Modelo de IA</span>
-                <span class="text-sm font-bold text-gray-800 dark:text-slate-200">Google Gemini Flash (Latest)</span>
+                <span class="text-sm font-bold text-gray-800 dark:text-slate-200">Google Gemini (Auto-Fallback Multi-Modelo)</span>
             </div>
             <div class="p-4 rounded-xl bg-white/40 dark:bg-white/5 border border-gray-100 dark:border-white/5">
                 <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider block mb-1">Arquitectura RAG</span>

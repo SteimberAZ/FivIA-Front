@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,6 +12,9 @@ import { environment } from '../../../environments/environment';
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent implements OnInit {
+  public authService = inject(AuthService);
+  private http = inject(HttpClient);
+
   stats = {
     conversations: 0,
     messages: 0,
@@ -19,7 +23,9 @@ export class DashboardComponent implements OnInit {
   };
   isLoading = true;
 
-  constructor(private http: HttpClient) {}
+  get userName(): string {
+    return this.authService.currentUser()?.name || 'Steimber';
+  }
 
   ngOnInit() {
     this.fetchStats();

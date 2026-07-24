@@ -7,7 +7,18 @@
       </h1>
     </div>
   </div>
-  <nav class="flex items-center gap-2 md:gap-4 w-full md:w-auto justify-center md:justify-end">
-    <a href="#" id="salir" class="nav-btn text-gray-700 dark:text-[#cbd5e1] text-sm md:text-base hover:!text-red-500">Salir</a>
+
+  <nav class="flex items-center gap-4 w-full md:w-auto justify-center md:justify-end">
+    <!-- Logged in User Badge -->
+    <div *ngIf="authService.currentUser() as user" class="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-fivia/10 border border-fivia/20 text-xs font-semibold text-gray-700 dark:text-slate-200">
+      <div class="w-6 h-6 rounded-full bg-gradient-to-tr from-[#34d399] to-[#10b981] flex items-center justify-center text-slate-950 font-bold text-xs">
+        {{ user.name.charAt(0) }}
+      </div>
+      <span class="font-outfit">{{ user.name }}</span>
+    </div>
+
+    <a href="#" (click)="logout($event)" id="salir" class="nav-btn text-gray-700 dark:text-[#cbd5e1] text-sm md:text-base hover:!text-red-500 font-medium transition-colors">
+      Cerrar Sesión
+    </a>
   </nav>
 </header>
