@@ -1,7 +1,8 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../../environments/environment';
 
 @Component({
@@ -14,6 +15,9 @@ import { environment } from '../../../environments/environment';
 export class LiveChatComponent implements OnInit, OnDestroy {
   @ViewChild('scrollContainer') private scrollContainer!: ElementRef;
 
+  private http = inject(HttpClient);
+  private route = inject(ActivatedRoute);
+
   conversations: any[] = [];
   activeChatId: string | null = null;
   activeClientName: string | null = null;
@@ -24,10 +28,16 @@ export class LiveChatComponent implements OnInit, OnDestroy {
 
   private pollingTimer: any = null;
 
-  constructor(private http: HttpClient) {}
-
   ngOnInit() {
     this.loadConversations();
+
+    this.route.queryParams.subscribe(params => {
+      if (params['chatId']) {
+        const targetChatId = params['chatId'];
+        this.selectConversation(targetChatId, true, `Chat ID: ${targetChatId}`);
+      }
+    });
+
     this.pollingTimer = setInterval(() => {
       this.loadConversations();
       if (this.activeChatId) {
@@ -69,9 +79,16 @@ export class LiveChatComponent implements OnInit, OnDestroy {
   loadConversations() {
     this.http.get(`${environment.apiUrl}/chat/conversations`).subscribe({
       next: (res: any) => {
-        // Solo actualizamos el estado si los datos han cambiado para evitar parpadeos
         if (JSON.stringify(res) !== JSON.stringify(this.conversations)) {
           this.conversations = res;
+          // Si tenemos un activeChatId sin nombre, asignarle el nombre de la lista si existe
+          if (this.activeChatId) {
+            const found = this.conversations.find(c => c.chat_id === this.activeChatId);
+            if (found && found.client_name) {
+              this.activeClientName = found.client_name;
+              this.isBotActive = found.ai_active;
+            }
+          }
         }
       },
       error: (err) => console.error('Error fetching conversations', err)
@@ -79,11 +96,11 @@ export class LiveChatComponent implements OnInit, OnDestroy {
   }
 
   selectConversation(chatId: string, aiActive: boolean, clientName: string) {
-    if (this.activeChatId === chatId) return;
+    if (this.activeChatId === chatId && this.messages.length > 0) return;
     this.activeChatId = chatId;
     this.isBotActive = aiActive;
     this.activeClientName = clientName;
-    this.messages = []; // Limpiar temporalmente al cambiar de chat
+    this.messages = [];
     this.loadMessages(chatId, true);
   }
 
@@ -178,11 +195,11 @@ export class LiveChatComponent implements OnInit, OnDestroy {
       message: this.newMessage.trim()
     };
     
-    this.newMessage = ''; // clear input
+    this.newMessage = '';
 
     this.http.post(`${environment.apiUrl}/chat/send`, payload).subscribe({
       next: () => {
-        this.isBotActive = false; // Sending a message auto-silences the bot
+        this.isBotActive = false;
         this.loadMessages(this.activeChatId!, true);
         this.loadConversations();
       },

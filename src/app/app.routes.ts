@@ -17,9 +17,14 @@ export const routes: Routes = [
     loadComponent: () => import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent)
   },
   {
-    path: 'chatbot-management',
+    path: 'live-chat',
     canActivate: [authGuard],
-    loadComponent: () => import('./features/chatbot-management/chatbot-management.component').then(m => m.ChatbotManagementComponent)
+    loadComponent: () => import('./features/live-chat/live-chat.component').then(m => m.LiveChatComponent)
+  },
+  {
+    path: 'tickets',
+    canActivate: [authGuard],
+    loadComponent: () => import('./features/tickets/tickets.component').then(m => m.TicketsComponent)
   },
   {
     path: 'knowledge-base',
@@ -32,9 +37,9 @@ export const routes: Routes = [
     loadComponent: () => import('./features/integrations/integrations.component').then(m => m.IntegrationsComponent)
   },
   {
-    path: 'live-chat',
+    path: 'chatbot-management',
     canActivate: [authGuard],
-    loadComponent: () => import('./features/live-chat/live-chat.component').then(m => m.LiveChatComponent)
+    loadComponent: () => import('./features/chatbot-management/chatbot-management.component').then(m => m.ChatbotManagementComponent)
   },
   {
     path: '**',

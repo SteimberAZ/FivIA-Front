@@ -49,7 +49,20 @@
       </a>
     </li>
 
-    <!-- 3. Conocimiento -->
+    <!-- 3. Tickets (NUEVO) -->
+    <li class="w-full">
+      <a 
+        routerLink="/tickets" 
+        (click)="onNavClick()"
+        routerLinkActive="bg-fivia/10 dark:bg-[#34d399]/20 text-fivia dark:text-[#34d399] font-bold" 
+        class="flex items-center gap-3 px-4 py-3.5 min-h-[44px] rounded-xl text-gray-700 dark:text-slate-300 font-medium transition-all duration-200 hover:bg-fivia/10 hover:text-fivia dark:hover:bg-[#34d399]/10 dark:hover:text-white text-sm"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 0 0-2 2v3a2 2 0 1 1 0 4v3a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-3a2 2 0 1 1 0-4V7a2 2 0 0 0-2-2H5z"/></svg>
+        <span>Tickets</span>
+      </a>
+    </li>
+
+    <!-- 4. Conocimiento -->
     <li class="w-full">
       <a 
         routerLink="/knowledge-base" 
@@ -62,7 +75,7 @@
       </a>
     </li>
 
-    <!-- 4. Integraciones -->
+    <!-- 5. Integraciones -->
     <li class="w-full">
       <a 
         routerLink="/integrations" 
@@ -75,7 +88,7 @@
       </a>
     </li>
 
-    <!-- 5. Chatbot Management -->
+    <!-- 6. Chatbot Management -->
     <li class="w-full">
       <a 
         routerLink="/chatbot-management" 
