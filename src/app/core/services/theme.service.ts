@@ -1,39 +1,59 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Injectable, signal } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ThemeService {
-  private darkModeSubject = new BehaviorSubject<boolean>(true); // Default to dark mode
-  darkMode$ = this.darkModeSubject.asObservable();
+  isDarkMode = signal<boolean>(this.getInitialTheme());
+  darkMode$ = toObservable(this.isDarkMode);
 
   constructor() {
-    // Check localStorage or default to dark
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      this.setDarkMode(savedTheme === 'dark');
-    } else {
-      this.setDarkMode(true);
+    this.applyTheme(this.isDarkMode());
+
+    // Escuchar cambios de preferencia del sistema/navegador automáticamente
+    if (typeof window !== 'undefined' && window.matchMedia) {
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        if (!localStorage.getItem('theme')) {
+          this.setDarkMode(e.matches);
+        }
+      });
     }
   }
 
   toggleTheme() {
-    this.setDarkMode(!this.darkModeSubject.value);
+    this.setDarkMode(!this.isDarkMode());
   }
 
   setDarkMode(isDark: boolean) {
-    this.darkModeSubject.next(isDark);
+    this.isDarkMode.set(isDark);
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    
+    this.applyTheme(isDark);
+  }
+
+  private getInitialTheme(): boolean {
+    if (typeof window === 'undefined') return true;
+
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      return savedTheme === 'dark';
+    }
+
+    // Detección automática del sistema operativo / navegador
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      return true;
+    }
+
+    return false;
+  }
+
+  private applyTheme(isDark: boolean) {
+    if (typeof document === 'undefined') return;
+
     if (isDark) {
       document.documentElement.classList.add('dark');
-      document.body.classList.add('bg-[#0b1110]', 'text-[#e2e8f0]');
-      document.body.classList.remove('bg-gray-50', 'text-gray-800');
     } else {
       document.documentElement.classList.remove('dark');
-      document.body.classList.add('bg-gray-50', 'text-gray-800');
-      document.body.classList.remove('bg-[#0b1110]', 'text-[#e2e8f0]');
     }
   }
 }
