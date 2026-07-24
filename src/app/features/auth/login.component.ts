@@ -49,7 +49,7 @@ import { AuthService } from '../../core/services/auth.service';
                 [(ngModel)]="email" 
                 name="email" 
                 required 
-                placeholder="steimberaz19@gmail.com"
+                placeholder="tu-correo@empresa.com"
                 class="w-full px-4 py-3.5 rounded-xl bg-slate-900/80 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#34d399] focus:border-transparent transition-all text-sm"
               />
               <div class="absolute right-3 top-3.5 text-slate-500">
@@ -98,16 +98,6 @@ import { AuthService } from '../../core/services/auth.service';
             </span>
           </button>
         </form>
-
-        <!-- Quick Demo Credential Badge -->
-        <div class="mt-8 pt-6 border-t border-white/10 text-center">
-          <p class="text-xs text-slate-400 mb-3 font-medium">Credenciales del Administrador:</p>
-          <div (click)="fillDemoCredentials()" class="cursor-pointer inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition-all text-xs text-emerald-400 font-mono">
-            <span>steimberaz19&#64;gmail.com</span>
-            <span class="text-slate-500">|</span>
-            <span>12345678</span>
-          </div>
-        </div>
       </div>
     </div>
   `,
@@ -126,16 +116,10 @@ export class LoginComponent {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
-  email = 'steimberaz19@gmail.com';
-  password = '12345678';
+  email = '';
+  password = '';
   isLoading = false;
   errorMessage = '';
-
-  fillDemoCredentials() {
-    this.email = 'steimberaz19@gmail.com';
-    this.password = '12345678';
-    this.errorMessage = '';
-  }
 
   onLogin() {
     if (!this.email || !this.password) {
