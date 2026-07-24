@@ -17,7 +17,7 @@ import { ThemeService } from '../../core/services/theme.service';
         (click)="themeService.toggleTheme()" 
         type="button"
         title="Cambiar Modo Claro/Oscuro"
-        class="fixed top-5 right-5 z-50 p-3 rounded-2xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-gray-200 dark:border-white/10 text-gray-700 dark:text-amber-400 hover:scale-105 active:scale-95 transition-all shadow-lg"
+        class="fixed top-5 right-5 z-50 p-3 rounded-2xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-gray-200 dark:border-white/10 text-gray-700 dark:text-amber-400 hover:scale-105 active:scale-95 transition-all shadow-lg min-w-[44px] min-h-[44px] flex items-center justify-center"
       >
         <svg *ngIf="themeService.isDarkMode()" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
@@ -35,11 +35,11 @@ import { ThemeService } from '../../core/services/theme.service';
       <!-- Main Container: Split Hero Grid -->
       <div class="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-10">
         
-        <!-- LEFT COLUMN: Value Proposition & Brand Copy -->
-        <div class="lg:col-span-7 flex flex-col justify-center space-y-6 text-center lg:text-left">
+        <!-- LEFT COLUMN: Value Proposition & Brand Copy (Hidden on Mobile/Tablet for max simplicity) -->
+        <div class="hidden lg:flex lg:col-span-7 flex-col justify-center space-y-6 text-left animate-fade-in">
           
           <!-- Pill Tag -->
-          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/60 dark:bg-white/5 border border-gray-200 dark:border-white/10 backdrop-blur-md self-center lg:self-start shadow-sm">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/60 dark:bg-white/5 border border-gray-200 dark:border-white/10 backdrop-blur-md self-start shadow-sm">
             <span class="relative flex h-2 w-2">
               <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
@@ -47,9 +47,9 @@ import { ThemeService } from '../../core/services/theme.service';
             <span class="text-xs font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 font-outfit">FivIA conoce tu negocio</span>
           </div>
 
-          <!-- Main Title -->
+          <!-- Main Title (Crystal clear, non-faded text) -->
           <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-outfit tracking-tight leading-tight text-gray-900 dark:text-white">
-            No vuelvas a <span class="bg-clip-text text-transparent bg-gradient-to-r from-[#34d399] via-emerald-500 dark:via-emerald-300 to-[#10b981]">perder un cliente</span> por responder tarde.
+            No vuelvas a <span class="text-emerald-600 dark:text-[#34d399] font-extrabold underline decoration-emerald-500/30 decoration-wavy">perder un cliente</span> por responder tarde.
           </h1>
 
           <!-- Value Copy -->
@@ -93,7 +93,7 @@ import { ThemeService } from '../../core/services/theme.service';
           </div>
 
           <!-- Social Trust Quote -->
-          <div class="pt-4 flex items-center justify-center lg:justify-start gap-4 text-xs text-gray-500 dark:text-slate-400">
+          <div class="pt-4 flex items-center justify-start gap-4 text-xs text-gray-500 dark:text-slate-400">
             <div class="flex -space-x-2">
               <div class="w-7 h-7 rounded-full bg-emerald-500 flex items-center justify-center text-slate-950 font-bold border-2 border-white dark:border-slate-950">S</div>
               <div class="w-7 h-7 rounded-full bg-teal-500 flex items-center justify-center text-slate-950 font-bold border-2 border-white dark:border-slate-950">F</div>
@@ -105,8 +105,8 @@ import { ThemeService } from '../../core/services/theme.service';
         </div>
 
         <!-- RIGHT COLUMN: High-End Glassmorphism Login Card -->
-        <div class="lg:col-span-5 w-full">
-          <div class="w-full bg-white/80 dark:bg-slate-900/70 backdrop-blur-2xl border border-gray-200 dark:border-white/10 rounded-3xl p-7 sm:p-9 shadow-2xl relative overflow-hidden">
+        <div class="lg:col-span-5 w-full max-w-md mx-auto lg:max-w-none animate-scale-up">
+          <div class="w-full bg-white/80 dark:bg-slate-900/70 backdrop-blur-2xl border border-gray-200 dark:border-white/10 rounded-3xl p-6 sm:p-9 shadow-2xl relative overflow-hidden">
             
             <!-- Top Light Flare inside Card -->
             <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#34d399] to-transparent opacity-50"></div>
@@ -116,7 +116,7 @@ import { ThemeService } from '../../core/services/theme.service';
               <div class="inline-flex items-center justify-center p-3 bg-emerald-500/10 rounded-2xl mb-3 border border-emerald-500/20 shadow-inner">
                 <img src="assets/icono2.png" alt="FivIA" class="w-10 h-10 floating" />
               </div>
-              <h2 class="text-2xl font-extrabold font-outfit bg-clip-text text-transparent bg-gradient-to-r from-[#34d399] via-emerald-600 dark:via-emerald-200 to-[#10b981]">
+              <h2 class="text-2xl font-extrabold font-outfit text-emerald-600 dark:text-[#34d399]">
                 FivIA Platform
               </h2>
               <p class="text-xs text-gray-500 dark:text-slate-400 mt-1 font-medium">Accede a tu panel de administración</p>
@@ -144,7 +144,7 @@ import { ThemeService } from '../../core/services/theme.service';
                     name="email" 
                     required 
                     placeholder="tu-correo@empresa.com"
-                    class="w-full px-4 py-3.5 rounded-xl bg-gray-50 dark:bg-slate-950/80 border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#34d399] focus:border-transparent transition-all text-sm"
+                    class="w-full px-4 py-3.5 rounded-xl bg-gray-50 dark:bg-slate-950/80 border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#34d399] focus:border-transparent transition-all text-sm min-h-[44px]"
                   />
                   <div class="absolute right-3.5 top-3.5 text-gray-400 dark:text-slate-500 pointer-events-none">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -166,7 +166,7 @@ import { ThemeService } from '../../core/services/theme.service';
                     name="password" 
                     required 
                     placeholder="••••••••"
-                    class="w-full px-4 py-3.5 rounded-xl bg-gray-50 dark:bg-slate-950/80 border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#34d399] focus:border-transparent transition-all text-sm"
+                    class="w-full px-4 py-3.5 rounded-xl bg-gray-50 dark:bg-slate-950/80 border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#34d399] focus:border-transparent transition-all text-sm min-h-[44px]"
                   />
                   <div class="absolute right-3.5 top-3.5 text-gray-400 dark:text-slate-500 pointer-events-none">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -180,7 +180,7 @@ import { ThemeService } from '../../core/services/theme.service';
               <button 
                 type="submit" 
                 [disabled]="isLoading"
-                class="w-full mt-2 py-4 rounded-xl font-bold font-outfit text-slate-950 bg-gradient-to-r from-[#34d399] via-emerald-300 to-[#10b981] hover:brightness-110 active:scale-[0.99] shadow-lg shadow-[#34d399]/25 transition-all flex items-center justify-center gap-2 text-sm disabled:opacity-50"
+                class="w-full mt-2 py-4 min-h-[44px] rounded-xl font-bold font-outfit text-slate-950 bg-gradient-to-r from-[#34d399] via-emerald-300 to-[#10b981] hover:brightness-110 active:scale-[0.99] shadow-lg shadow-[#34d399]/25 transition-all flex items-center justify-center gap-2 text-sm disabled:opacity-50"
               >
                 <span *ngIf="!isLoading" class="flex items-center gap-2">
                   Ingresar a FivIA
