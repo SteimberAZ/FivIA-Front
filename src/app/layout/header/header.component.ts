@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/services/auth.service';
 import { ThemeService } from '../../core/services/theme.service';
+import { UiService } from '../../core/services/ui.service';
 
 @Component({
   selector: 'app-header',
@@ -13,6 +14,7 @@ import { ThemeService } from '../../core/services/theme.service';
 export class HeaderComponent {
   public authService = inject(AuthService);
   public themeService = inject(ThemeService);
+  public uiService = inject(UiService);
 
   logout(event: Event) {
     event.preventDefault();

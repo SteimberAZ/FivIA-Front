@@ -1,13 +1,16 @@
 <section class="max-w-6xl mx-auto w-full h-full flex flex-col animate-fade-in">
-    <div id="welcome" class="mb-8">
-        <h2 class="text-3xl md:text-4xl font-bold font-outfit text-gray-800 dark:text-slate-100">Mensajería y Live Chat (Handoff)</h2>
+    <div id="welcome" class="mb-4 sm:mb-8">
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold font-outfit text-gray-800 dark:text-slate-100">Mensajería y Live Chat (Handoff)</h2>
     </div>
     
-    <div class="flex flex-col md:flex-row gap-6 flex-1 h-[65vh] min-h-[500px]">
-        <!-- Contact List -->
-        <div class="w-full md:w-80 bg-white/50 dark:bg-black/20 backdrop-blur-md rounded-2xl p-5 border border-gray-200 dark:border-white/10 overflow-y-auto shadow-sm flex flex-col gap-3">
+    <div class="flex flex-col md:flex-row gap-4 sm:gap-6 flex-1 h-[70vh] md:h-[65vh] min-h-[480px]">
+        <!-- Contact List (Hidden on mobile when chat is open) -->
+        <div 
+            class="w-full md:w-80 bg-white/50 dark:bg-black/20 backdrop-blur-md rounded-2xl p-4 sm:p-5 border border-gray-200 dark:border-white/10 overflow-y-auto shadow-sm flex flex-col gap-3"
+            [ngClass]="activeChatId ? 'hidden md:flex' : 'flex'"
+        >
             <div class="flex items-center justify-between mb-1">
-                <h3 class="text-xl font-semibold font-outfit text-gray-700 dark:text-slate-200">Conversaciones</h3>
+                <h3 class="text-lg sm:text-xl font-semibold font-outfit text-gray-700 dark:text-slate-200">Conversaciones</h3>
                 <span class="text-xs font-bold px-2 py-0.5 rounded-full bg-fivia/10 text-fivia dark:bg-[#34d399]/20 dark:text-[#34d399]">
                     {{ filteredConversations.length }}
                 </span>
@@ -19,12 +22,12 @@
                     type="text" 
                     [(ngModel)]="searchQuery" 
                     placeholder="Buscar por cliente o ID..."
-                    class="w-full pl-9 pr-8 py-2.5 rounded-xl bg-white/80 dark:bg-black/40 border border-gray-200 dark:border-white/10 text-xs text-gray-800 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#34d399] transition-all"
+                    class="w-full pl-9 pr-8 py-3 rounded-xl bg-white/80 dark:bg-black/40 border border-gray-200 dark:border-white/10 text-xs sm:text-sm text-gray-800 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#34d399] transition-all min-h-[44px]"
                 />
-                <svg class="w-4 h-4 absolute left-3 top-3 text-gray-400 dark:text-slate-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-4 h-4 absolute left-3 top-3.5 text-gray-400 dark:text-slate-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
-                <button *ngIf="searchQuery" (click)="clearSearch()" class="absolute right-2.5 top-2.5 text-gray-400 hover:text-gray-600 dark:hover:text-white text-xs font-bold transition-colors">
+                <button *ngIf="searchQuery" (click)="clearSearch()" class="absolute right-2.5 top-2.5 p-1 text-gray-400 hover:text-gray-600 dark:hover:text-white text-xs font-bold transition-colors">
                     ✕
                 </button>
             </div>
@@ -33,15 +36,15 @@
                 {{ searchQuery ? 'No se encontraron resultados para tu búsqueda.' : 'No hay conversaciones activas.' }}
             </div>
 
-            <!-- Conversation Items (with trackBy to avoid flicker) -->
+            <!-- Conversation Items -->
             <div *ngFor="let chat of filteredConversations; trackBy: trackByChatId" 
                  (click)="selectConversation(chat.chat_id, chat.ai_active, chat.client_name)"
-                 class="p-4 rounded-xl cursor-pointer transition-all shadow-sm hover-lift group relative"
+                 class="p-4 rounded-xl cursor-pointer transition-all shadow-sm hover-lift group relative min-h-[56px] flex flex-col justify-center"
                  [ngClass]="activeChatId === chat.chat_id ? 'bg-white dark:bg-white/10 border-l-4 border-fivia dark:border-[#34d399]' : 'bg-white/50 dark:bg-white/5 border border-transparent hover:bg-white dark:hover:bg-white/10'">
                 
                 <div class="flex items-center justify-between">
-                    <strong class="text-gray-800 dark:text-slate-100 font-outfit text-lg block truncate pr-2">{{ chat.client_name || ('Chat ID: ' + chat.chat_id) }}</strong>
-                    <button (click)="deleteConversation(chat.chat_id, chat.client_name, $event)" class="p-1 text-gray-400 hover:text-red-500 opacity-60 group-hover:opacity-100 transition-all shrink-0" title="Eliminar Cliente">
+                    <strong class="text-gray-800 dark:text-slate-100 font-outfit text-base sm:text-lg block truncate pr-2">{{ chat.client_name || ('Chat ID: ' + chat.chat_id) }}</strong>
+                    <button (click)="deleteConversation(chat.chat_id, chat.client_name, $event)" class="p-2 text-gray-400 hover:text-red-500 opacity-60 group-hover:opacity-100 transition-all shrink-0 min-w-[36px] min-h-[36px] flex items-center justify-center" title="Eliminar Cliente">
                         <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <polyline points="3 6 5 6 21 6"></polyline>
                             <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
@@ -51,32 +54,45 @@
                 
                 <p class="text-xs text-gray-500 dark:text-slate-400 mt-1 mb-2 font-medium">Vía Telegram</p>
                 
-                <span *ngIf="chat.ai_active" class="inline-block px-2 py-1 bg-fivia/10 dark:bg-[#34d399]/20 text-fivia dark:text-[#34d399] rounded-md text-xs font-bold">🤖 Bot Activo</span>
-                <span *ngIf="!chat.ai_active" class="inline-block px-2 py-1 bg-orange-500/10 text-orange-600 dark:bg-orange-400/20 dark:text-orange-400 rounded-md text-xs font-bold">👤 Agente al mando</span>
+                <div class="flex items-center gap-2">
+                    <span *ngIf="chat.ai_active" class="inline-block px-2 py-1 bg-fivia/10 dark:bg-[#34d399]/20 text-fivia dark:text-[#34d399] rounded-md text-[11px] font-bold">🤖 Bot Activo</span>
+                    <span *ngIf="!chat.ai_active" class="inline-block px-2 py-1 bg-orange-500/10 text-orange-600 dark:bg-orange-400/20 dark:text-orange-400 rounded-md text-[11px] font-bold">👤 Agente al mando</span>
+                </div>
             </div>
         </div>
 
-        <!-- Chat Area -->
-        <div class="flex-1 flex flex-col bg-white/60 dark:bg-black/20 backdrop-blur-md rounded-2xl border border-gray-200 dark:border-white/10 shadow-sm overflow-hidden">
-            
-            <div *ngIf="!activeChatId" class="flex-1 flex items-center justify-center text-gray-500 dark:text-slate-400 font-medium">
+        <!-- Chat Area (Hidden on mobile when no chat is active) -->
+        <div 
+            class="flex-1 flex flex-col bg-white/60 dark:bg-black/20 backdrop-blur-md rounded-2xl border border-gray-200 dark:border-white/10 shadow-sm overflow-hidden"
+            [ngClass]="!activeChatId ? 'hidden md:flex' : 'flex'"
+        >
+            <div *ngIf="!activeChatId" class="flex-1 flex items-center justify-center text-gray-500 dark:text-slate-400 font-medium p-4 text-center">
                 Selecciona una conversación para empezar
             </div>
 
             <ng-container *ngIf="activeChatId">
                 <!-- Chat Header -->
-                <div class="p-5 border-b border-gray-200 dark:border-white/10 bg-white/40 dark:bg-white/5 flex justify-between items-center shrink-0">
-                    <div>
-                        <h3 class="text-xl font-bold font-outfit text-gray-800 dark:text-slate-100 m-0 truncate max-w-[200px] md:max-w-md">{{ activeClientName || ('Chat ID: ' + activeChatId) }}</h3>
-                        <p class="text-sm font-medium mt-1 text-fivia dark:text-[#34d399]" *ngIf="isBotActive">El bot de IA está gestionando esta conversación.</p>
-                        <p class="text-sm font-medium mt-1 text-orange-600 dark:text-orange-400" *ngIf="!isBotActive">Bot silenciado. Estás al mando de la conversación.</p>
+                <div class="p-3.5 sm:p-5 border-b border-gray-200 dark:border-white/10 bg-white/40 dark:bg-white/5 flex justify-between items-center shrink-0">
+                    <div class="flex items-center gap-2 min-w-0">
+                        <!-- Mobile Back Button -->
+                        <button (click)="activeChatId = null" type="button" class="md:hidden p-2 rounded-lg text-gray-600 dark:text-slate-300 hover:bg-gray-200 dark:hover:bg-white/10 min-w-[44px] min-h-[44px] flex items-center justify-center shrink-0" aria-label="Volver a lista">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                            </svg>
+                        </button>
+                        <div class="min-w-0">
+                            <h3 class="text-base sm:text-xl font-bold font-outfit text-gray-800 dark:text-slate-100 m-0 truncate max-w-[150px] sm:max-w-md">{{ activeClientName || ('Chat ID: ' + activeChatId) }}</h3>
+                            <p class="text-xs sm:text-sm font-medium mt-0.5 text-fivia dark:text-[#34d399] truncate" *ngIf="isBotActive">El bot de IA está gestionando este chat.</p>
+                            <p class="text-xs sm:text-sm font-medium mt-0.5 text-orange-600 dark:text-orange-400 truncate" *ngIf="!isBotActive">Bot silenciado. Estás al mando.</p>
+                        </div>
                     </div>
+                    
                     <div class="flex items-center gap-2 shrink-0">
-                        <button (click)="toggleHandoff()" class="px-3 py-1.5 rounded-lg text-sm font-semibold transition-colors border shrink-0"
+                        <button (click)="toggleHandoff()" class="px-2.5 sm:px-3 py-2 sm:py-1.5 min-h-[44px] rounded-xl text-xs sm:text-sm font-semibold transition-colors border shrink-0 flex items-center justify-center"
                             [ngClass]="isBotActive ? 'bg-orange-500/10 text-orange-600 border-orange-500/20 hover:bg-orange-500 hover:text-white' : 'bg-fivia/10 text-fivia border-fivia/20 hover:bg-fivia hover:text-white'">
                             {{ isBotActive ? 'Apagar IA' : 'Encender IA' }}
                         </button>
-                        <button (click)="deleteCurrentConversation()" class="p-2 rounded-lg bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-colors border border-red-500/20 shrink-0" title="Eliminar Cliente y Conversación">
+                        <button (click)="deleteCurrentConversation()" class="p-2 rounded-xl bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-colors border border-red-500/20 shrink-0 min-w-[44px] min-h-[44px] flex items-center justify-center" title="Eliminar Cliente y Conversación">
                             <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <polyline points="3 6 5 6 21 6"></polyline>
                                 <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
@@ -89,12 +105,12 @@
 
                 <!-- Messages List (Forced Scroll Area) -->
                 <div class="flex-1 relative min-h-0 bg-transparent">
-                    <div #scrollContainer class="absolute inset-0 p-6 overflow-y-auto flex flex-col gap-4">
+                    <div #scrollContainer class="absolute inset-0 p-4 sm:p-6 overflow-y-auto flex flex-col gap-3.5">
                         <div *ngFor="let msg of messages; trackBy: trackByMsgId" 
                              [ngClass]="msg.sender === 'client' ? 'self-start bg-white dark:bg-white/10 border border-gray-100 dark:border-transparent rounded-tl-sm text-gray-700 dark:text-slate-200' : 'self-end bg-gradient-to-br from-fivia to-[#10b981] dark:from-[#34d399] dark:to-[#10b981] text-white rounded-tr-sm'"
-                             class="p-4 rounded-2xl max-w-[80%] shadow-sm">
-                            <p>{{ msg.sender === 'bot' ? '🤖 ' : (msg.sender === 'agent' ? '👤 ' : '') }}{{ msg.text }}</p>
-                            <div class="text-[10px] mt-2 font-medium" [ngClass]="msg.sender === 'client' ? 'text-gray-400' : 'text-white/70'">
+                             class="p-3.5 sm:p-4 rounded-2xl max-w-[88%] sm:max-w-[80%] shadow-sm text-xs sm:text-sm">
+                            <p class="leading-relaxed">{{ msg.sender === 'bot' ? '🤖 ' : (msg.sender === 'agent' ? '👤 ' : '') }}{{ msg.text }}</p>
+                            <div class="text-[10px] mt-1.5 font-medium" [ngClass]="msg.sender === 'client' ? 'text-gray-400' : 'text-white/70'">
                                 {{ msg.created_at | date:'shortTime' }}
                             </div>
                         </div>
@@ -102,9 +118,9 @@
                 </div>
 
                 <!-- Input Box -->
-                <div class="p-5 border-t border-gray-200 dark:border-white/10 bg-white/40 dark:bg-white/5 flex gap-3 shrink-0">
-                    <input type="text" [(ngModel)]="newMessage" (keyup.enter)="sendMessage()" placeholder="Escribe un mensaje para tomar el control (Handoff)..." class="input-styled !mt-0 flex-1">
-                    <button (click)="sendMessage()" class="btn-primary whitespace-nowrap px-6">Enviar</button>
+                <div class="p-3.5 sm:p-5 border-t border-gray-200 dark:border-white/10 bg-white/40 dark:bg-white/5 flex gap-2 sm:gap-3 shrink-0">
+                    <input type="text" [(ngModel)]="newMessage" (keyup.enter)="sendMessage()" placeholder="Escribe un mensaje..." class="input-styled !mt-0 flex-1 py-3 text-xs sm:text-sm min-h-[44px]">
+                    <button (click)="sendMessage()" class="btn-primary whitespace-nowrap px-4 sm:px-6 min-h-[44px] text-xs sm:text-sm">Enviar</button>
                 </div>
             </ng-container>
         </div>
@@ -121,16 +137,16 @@
                 </svg>
             </div>
 
-            <h3 class="text-2xl font-bold font-outfit text-gray-800 dark:text-slate-100 mb-2">Eliminar Cliente</h3>
-            <p class="text-gray-500 dark:text-slate-400 text-sm mb-6">
+            <h3 class="text-xl sm:text-2xl font-bold font-outfit text-gray-800 dark:text-slate-100 mb-2">Eliminar Cliente</h3>
+            <p class="text-gray-500 dark:text-slate-400 text-xs sm:text-sm mb-6">
                 ¿Estás seguro de que deseas eliminar la conversación de <strong class="text-gray-800 dark:text-slate-200 font-semibold">{{ chatToDelete?.name }}</strong>? Esta acción borrará todo el historial de mensajes permanentemente.
             </p>
 
             <div class="flex gap-3 w-full">
-                <button (click)="cancelDelete()" class="flex-1 py-3 px-4 rounded-xl border border-gray-300 dark:border-white/10 font-bold text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors">
+                <button (click)="cancelDelete()" class="flex-1 py-3 px-4 min-h-[44px] rounded-xl border border-gray-300 dark:border-white/10 font-bold text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors text-xs sm:text-sm">
                     Cancelar
                 </button>
-                <button (click)="confirmDelete()" class="flex-1 py-3 px-4 rounded-xl bg-red-500 hover:bg-red-600 text-white font-bold transition-colors shadow-lg shadow-red-500/30">
+                <button (click)="confirmDelete()" class="flex-1 py-3 px-4 min-h-[44px] rounded-xl bg-red-500 hover:bg-red-600 text-white font-bold transition-colors shadow-lg shadow-red-500/30 text-xs sm:text-sm">
                     Eliminar
                 </button>
             </div>
