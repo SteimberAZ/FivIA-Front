@@ -1,6 +1,6 @@
-<section class="max-w-6xl mx-auto w-full">
+<section class="max-w-6xl mx-auto w-full animate-fade-in">
     <!-- Header Welcome -->
-    <div id="welcome" class="mb-8">
+    <div id="welcome" class="mb-8 animate-slide-up">
         <h2 class="text-3xl md:text-4xl font-bold font-outfit text-gray-800 dark:text-slate-100 flex items-center gap-3">
             ¡Hola, <span class="bg-clip-text text-transparent bg-gradient-to-r from-[#34d399] to-[#10b981]">{{ userName }}</span>!
         </h2>
@@ -10,7 +10,7 @@
     <!-- Metrics Grid -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
         <!-- Card 1: Mensajes Totales -->
-        <article class="glass-card p-6 rounded-2xl border border-gray-200 dark:border-white/10 shadow-sm hover:shadow-md transition-all">
+        <article class="glass-card hover-lift p-6 rounded-2xl border border-gray-200 dark:border-white/10 shadow-sm transition-all animate-slide-up opacity-0 stagger-1">
             <div class="flex items-center justify-between mb-4">
                 <span class="text-sm font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wider font-outfit">Mensajes</span>
                 <div class="p-3 rounded-xl bg-blue-500/10 text-blue-600 dark:bg-blue-400/20 dark:text-blue-400">
@@ -26,7 +26,7 @@
         </article>
 
         <!-- Card 2: Clientes Atendidos -->
-        <article class="glass-card p-6 rounded-2xl border border-gray-200 dark:border-white/10 shadow-sm hover:shadow-md transition-all">
+        <article class="glass-card hover-lift p-6 rounded-2xl border border-gray-200 dark:border-white/10 shadow-sm transition-all animate-slide-up opacity-0 stagger-2">
             <div class="flex items-center justify-between mb-4">
                 <span class="text-sm font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wider font-outfit">Clientes</span>
                 <div class="p-3 rounded-xl bg-fivia/10 text-fivia dark:bg-[#34d399]/20 dark:text-[#34d399]">
@@ -42,7 +42,7 @@
         </article>
 
         <!-- Card 3: Conexiones Activas -->
-        <article class="glass-card p-6 rounded-2xl border border-gray-200 dark:border-white/10 shadow-sm hover:shadow-md transition-all">
+        <article class="glass-card hover-lift p-6 rounded-2xl border border-gray-200 dark:border-white/10 shadow-sm transition-all animate-slide-up opacity-0 stagger-3">
             <div class="flex items-center justify-between mb-4">
                 <span class="text-sm font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wider font-outfit">Conexiones</span>
                 <div class="p-3 rounded-xl bg-purple-500/10 text-purple-600 dark:bg-purple-400/20 dark:text-purple-400">
@@ -58,7 +58,7 @@
         </article>
 
         <!-- Card 4: Base de Conocimiento -->
-        <article class="glass-card p-6 rounded-2xl border border-gray-200 dark:border-white/10 shadow-sm hover:shadow-md transition-all">
+        <article class="glass-card hover-lift p-6 rounded-2xl border border-gray-200 dark:border-white/10 shadow-sm transition-all animate-slide-up opacity-0 stagger-4">
             <div class="flex items-center justify-between mb-4">
                 <span class="text-sm font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wider font-outfit">Conocimiento</span>
                 <div class="p-3 rounded-xl bg-amber-500/10 text-amber-600 dark:bg-amber-400/20 dark:text-amber-400">
@@ -75,7 +75,7 @@
     </div>
 
     <!-- Health & Performance Overview -->
-    <div class="glass-card p-6 md:p-8 rounded-2xl border border-gray-200 dark:border-white/10 shadow-sm">
+    <div class="glass-card hover-lift p-6 md:p-8 rounded-2xl border border-gray-200 dark:border-white/10 shadow-sm animate-scale-up">
         <h3 class="text-xl font-bold font-outfit text-gray-800 dark:text-slate-100 mb-4 flex items-center gap-3">
             <span class="relative flex h-3 w-3">
               <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -85,15 +85,15 @@
         </h3>
         
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-            <div class="p-4 rounded-xl bg-white/40 dark:bg-white/5 border border-gray-100 dark:border-white/5">
+            <div class="p-4 rounded-xl bg-white/40 dark:bg-white/5 border border-gray-100 dark:border-white/5 transition-all hover:border-emerald-500/30">
                 <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider block mb-1">Modelo de IA</span>
                 <span class="text-sm font-bold text-gray-800 dark:text-slate-200">Google Gemini (Auto-Fallback Multi-Modelo)</span>
             </div>
-            <div class="p-4 rounded-xl bg-white/40 dark:bg-white/5 border border-gray-100 dark:border-white/5">
+            <div class="p-4 rounded-xl bg-white/40 dark:bg-white/5 border border-gray-100 dark:border-white/5 transition-all hover:border-emerald-500/30">
                 <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider block mb-1">Arquitectura RAG</span>
                 <span class="text-sm font-bold text-emerald-600 dark:text-[#34d399]">Activa (Context Injection)</span>
             </div>
-            <div class="p-4 rounded-xl bg-white/40 dark:bg-white/5 border border-gray-100 dark:border-white/5">
+            <div class="p-4 rounded-xl bg-white/40 dark:bg-white/5 border border-gray-100 dark:border-white/5 transition-all hover:border-emerald-500/30">
                 <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider block mb-1">Estado del Servidor</span>
                 <span class="text-sm font-bold text-emerald-600 dark:text-[#34d399]">100% Operativo (Vercel)</span>
             </div>
