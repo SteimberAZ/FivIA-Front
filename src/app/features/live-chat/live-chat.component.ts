@@ -20,18 +20,34 @@ export class LiveChatComponent implements OnInit {
   messages: any[] = [];
   isBotActive = true;
   newMessage = '';
+  searchQuery = '';
 
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
     this.loadConversations();
-    // En una aplicación real usaríamos WebSockets (Socket.io) o polling
     setInterval(() => {
       this.loadConversations();
       if (this.activeChatId) {
         this.loadMessages(this.activeChatId, false);
       }
     }, 5000);
+  }
+
+  get filteredConversations(): any[] {
+    if (!this.searchQuery.trim()) {
+      return this.conversations;
+    }
+    const query = this.searchQuery.toLowerCase().trim();
+    return this.conversations.filter(chat => {
+      const name = (chat.client_name || '').toLowerCase();
+      const id = (chat.chat_id || '').toLowerCase();
+      return name.includes(query) || id.includes(query);
+    });
+  }
+
+  clearSearch() {
+    this.searchQuery = '';
   }
 
   loadConversations() {
