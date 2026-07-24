@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -11,7 +11,7 @@ import { environment } from '../../../environments/environment';
   templateUrl: './live-chat.component.html',
   styleUrls: ['./live-chat.component.css']
 })
-export class LiveChatComponent implements OnInit {
+export class LiveChatComponent implements OnInit, OnDestroy {
   @ViewChild('scrollContainer') private scrollContainer!: ElementRef;
 
   conversations: any[] = [];
@@ -22,16 +22,32 @@ export class LiveChatComponent implements OnInit {
   newMessage = '';
   searchQuery = '';
 
+  private pollingTimer: any = null;
+
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
     this.loadConversations();
-    setInterval(() => {
+    this.pollingTimer = setInterval(() => {
       this.loadConversations();
       if (this.activeChatId) {
         this.loadMessages(this.activeChatId, false);
       }
-    }, 5000);
+    }, 4000);
+  }
+
+  ngOnDestroy() {
+    if (this.pollingTimer) {
+      clearInterval(this.pollingTimer);
+    }
+  }
+
+  trackByChatId(index: number, item: any): string {
+    return item.chat_id || index;
+  }
+
+  trackByMsgId(index: number, item: any): string {
+    return item.id || index;
   }
 
   get filteredConversations(): any[] {
@@ -53,25 +69,32 @@ export class LiveChatComponent implements OnInit {
   loadConversations() {
     this.http.get(`${environment.apiUrl}/chat/conversations`).subscribe({
       next: (res: any) => {
-        this.conversations = res;
+        // Solo actualizamos el estado si los datos han cambiado para evitar parpadeos
+        if (JSON.stringify(res) !== JSON.stringify(this.conversations)) {
+          this.conversations = res;
+        }
       },
       error: (err) => console.error('Error fetching conversations', err)
     });
   }
 
   selectConversation(chatId: string, aiActive: boolean, clientName: string) {
+    if (this.activeChatId === chatId) return;
     this.activeChatId = chatId;
     this.isBotActive = aiActive;
     this.activeClientName = clientName;
+    this.messages = []; // Limpiar temporalmente al cambiar de chat
     this.loadMessages(chatId, true);
   }
 
   loadMessages(chatId: string, forceScroll = false) {
     this.http.get(`${environment.apiUrl}/chat/conversations/${chatId}/messages`).subscribe({
       next: (res: any) => {
-        const isNewMessageCount = res && res.length !== this.messages.length;
-        this.messages = res;
-        if (forceScroll || isNewMessageCount) {
+        const isChanged = JSON.stringify(res) !== JSON.stringify(this.messages);
+        if (isChanged) {
+          this.messages = res;
+          setTimeout(() => this.scrollToBottom(), 50);
+        } else if (forceScroll) {
           setTimeout(() => this.scrollToBottom(), 50);
         }
       },
