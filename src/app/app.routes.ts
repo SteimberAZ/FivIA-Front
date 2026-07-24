@@ -37,11 +37,6 @@ export const routes: Routes = [
     loadComponent: () => import('./features/live-chat/live-chat.component').then(m => m.LiveChatComponent)
   },
   {
-    path: 'config',
-    canActivate: [authGuard],
-    loadComponent: () => import('./features/config/config.component').then(m => m.ConfigComponent)
-  },
-  {
     path: '**',
     redirectTo: 'dashboard'
   }
